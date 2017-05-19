@@ -9,11 +9,11 @@
         {{ end }}
 
         <div class="posts-list">
-          {{ $pag := .Paginate (where .Data.Pages "Type" "post") }}
-          {{ range $pag.Pages }}
+          {{ $swiftLinksJson := (getJSON "/data/json/fresh-swift-export.json") }}
+          {{ range ($swiftLinksJson.links) }}
             <article class="post-preview">
-              <a href="{{ .Permalink }}">
-                <h2 class="post-title">{{ .Title }}</h2>
+              <a href="{{ .url }}">
+                <h2 class="post-title">{{ .title }}</h2>
                 {{ if .Params.subtitle }}
                   <h3 class="post-subtitle">
                   {{ .Params.subtitle }}
@@ -24,10 +24,10 @@
               {{ partial "post_meta.html" . }}
               <div class="post-entry">
                 {{ if .Truncated }}
-                  {{ .Summary }}
+                  {{ .description }}
                   <a href="{{ .Permalink }}" class="post-read-more">[{{ i18n "readMore" }}]</a>
                 {{ else }}
-                  {{ .Content }}
+                  {{ .description }}
                 {{ end }}
               </div>
 
@@ -60,4 +60,3 @@
     </div>
   </div>
 {{ end }}
-
